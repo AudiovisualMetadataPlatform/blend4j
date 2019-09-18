@@ -1,15 +1,24 @@
 package com.github.jmchilton.blend4j.galaxy.beans;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class WorkflowDetails extends Workflow {
   private Map<String, WorkflowInputDefinition> inputs;
   private Map<String, WorkflowStepDefinition> steps;
-  private Map<ToolInputs, Tool> toolinputs;
-  //tags annotation model_class to be added
+  private ArrayList<ToolInputs> toolinputs;
+  //tags  to be added
 	
 
-  public Map<String, WorkflowStepDefinition> getSteps() {
+  public ArrayList<ToolInputs> getToolinputs() {
+	return toolinputs;
+}
+
+public void setToolinputs(ArrayList<ToolInputs> toolinputs) {
+	this.toolinputs = toolinputs;
+}
+
+public Map<String, WorkflowStepDefinition> getSteps() {
     return steps;
   }
 
@@ -25,12 +34,11 @@ public class WorkflowDetails extends Workflow {
     return inputs;
   }
 
-public Map<ToolInputs, Tool> getToolinputs() {
-	return toolinputs;
-}
-
-public void setToolinputs(Map<ToolInputs, Tool> toolinputs) {
-	this.toolinputs = toolinputs;
-}
+	/*
+	 * public Map<ToolInputs, Tool> getToolinputs() { return toolinputs; }
+	 * 
+	 * public void setToolinputs(Map<ToolInputs, Tool> toolinputs) { this.toolinputs
+	 * = toolinputs; }
+	 */
   
 }
