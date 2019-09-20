@@ -6,21 +6,18 @@ import java.util.Map;
 public class WorkflowDetails extends Workflow {
   private Map<String, WorkflowInputDefinition> inputs;
   private Map<String, WorkflowStepDefinition> steps;
-  private ArrayList<ToolInputs> toolinputs;
+  
   //tags  to be added
 	
 
-  public ArrayList<ToolInputs> getToolinputs() {
-	return toolinputs;
-}
+	/*
+	 * public ArrayList<ToolInputs> getToolinputs() { return toolinputs; }
+	 */
 
-public void setToolinputs(ArrayList<ToolInputs> toolinputs) {
-	this.toolinputs = toolinputs;
-}
 
 public Map<String, WorkflowStepDefinition> getSteps() {
     return steps;
-  }
+  }  
 
   public void setSteps(Map<String, WorkflowStepDefinition> steps) {
     this.steps = steps;
@@ -34,11 +31,8 @@ public Map<String, WorkflowStepDefinition> getSteps() {
     return inputs;
   }
 
-	/*
-	 * public Map<ToolInputs, Tool> getToolinputs() { return toolinputs; }
-	 * 
-	 * public void setToolinputs(Map<ToolInputs, Tool> toolinputs) { this.toolinputs
-	 * = toolinputs; }
-	 */
+	
+  
+	 
   
 }

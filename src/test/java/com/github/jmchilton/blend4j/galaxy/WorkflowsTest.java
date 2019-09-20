@@ -31,6 +31,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class WorkflowsTest {
+	private static final String TEST_WORKFLOW_NAME_AMP = "Galaxy-Workflow-amp_workflow";
 	private static final String TEST_WORKFLOW_NAME = "TestWorkflow1";
 	private static final String TEST_WORKFLOW_RANDOMLINES = "TestWorkflowRandomlines";
 	private static final String TEST_WORKFLOW_COLLECTION_LIST = "TestWorkflowCollectionList";
@@ -39,6 +40,7 @@ public class WorkflowsTest {
 	private static final Logger logger = LoggerFactory.getLogger(ToolDataTest.class);
 
 	private String testWorkflow1Contents;
+	private String testAmpWorkflow1Contents;
 
 	@BeforeMethod
 	public void init() throws IOException {
@@ -47,6 +49,8 @@ public class WorkflowsTest {
 
 		testWorkflow1Contents = Resources
 				.asCharSource(getClass().getResource(TEST_WORKFLOW_NAME + ".ga"), Charsets.UTF_8).read();
+		testAmpWorkflow1Contents = Resources
+				.asCharSource(getClass().getResource(TEST_WORKFLOW_NAME_AMP + ".ga"), Charsets.UTF_8).read();
 	}
 
 	private String ensureHasTestWorkflow1() {
@@ -347,9 +351,9 @@ public class WorkflowsTest {
 	/**
 	 * Tests to see workflow details
 	 */
-	  @Test 
+	  @Test   
 	public void testShowWorkflowDetails() throws InterruptedException {
-	  Workflow workflow = client.importWorkflow(testWorkflow1Contents);
+	  Workflow workflow = client.importWorkflow(testAmpWorkflow1Contents);
 	  WorkflowDetails workflowDetails = client.showWorkflow(workflow.getId());
 	  
 		
@@ -360,8 +364,8 @@ public class WorkflowsTest {
 		  +workflowDetails.getUrl()+
 		  "\n Inputs:"+workflowDetails.getInputs()+"\n Steps:"+workflowDetails.getSteps()+ 
 		  "\nIs Deleted :"+workflowDetails.isDeleted()+
-		  "\n Is Published:"+workflowDetails.isPublished() +
-		  "\n tool_inputs:"+workflowDetails.getToolinputs());
+		  "\n Is Published:"+workflowDetails.isPublished()+
+		  "\n Tool_inputs:"+workflowDetails.getSteps().get("1").getTool_inputs());
 	  
 	  
 	  Assert.assertNotNull(workflowDetails.getId());

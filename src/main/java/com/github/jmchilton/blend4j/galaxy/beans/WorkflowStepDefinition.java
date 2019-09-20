@@ -35,6 +35,52 @@ public class WorkflowStepDefinition {
 
   private Map<String, WorkflowStepOutput> inputSteps;
   private String type; // data_input or tool
+  private String annotation;
+  private String tool_id;
+  private String tool_version;
+  private String id;
+  private ToolInputs tool_inputs;
+  
+  
+  public String getAnnotation() {
+	return annotation;
+}
+
+public void setAnnotation(String annotation) {
+	this.annotation = annotation;
+}
+
+public String getTool_id() {
+	return tool_id;
+}
+
+public void setTool_id(String tool_id) {
+	this.tool_id = tool_id;
+}
+
+public String getTool_version() {
+	return tool_version;
+}
+
+public void setTool_version(String tool_version) {
+	this.tool_version = tool_version;
+}
+
+public String getId() {
+	return id;
+}
+
+public void setId(String id) {
+	this.id = id;
+}
+
+public ToolInputs getTool_inputs() {
+	return tool_inputs;
+}
+
+public void setTool_inputs(ToolInputs tool_inputs) {
+	this.tool_inputs = tool_inputs;
+}
   
   @JsonProperty("input_steps")
   public void setInputSteps(final Map<String, WorkflowStepOutput> inputSteps) {
