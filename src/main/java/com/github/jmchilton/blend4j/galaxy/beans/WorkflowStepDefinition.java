@@ -33,14 +33,14 @@ public class WorkflowStepDefinition {
   
   }
 
-  private Map<String, WorkflowStepOutput> inputSteps;
-  private String type; // data_input or tool
-  private String annotation;
   private String tool_id;
   private String tool_version;
   private String id;
+  private Map<String, WorkflowStepOutput> input_steps;
   private ToolInputs tool_inputs;
-  
+  private String type; // data_input or tool
+  private String annotation;
+
   
   public String getAnnotation() {
 	return annotation;
@@ -84,11 +84,11 @@ public void setTool_inputs(ToolInputs tool_inputs) {
   
   @JsonProperty("input_steps")
   public void setInputSteps(final Map<String, WorkflowStepOutput> inputSteps) {
-    this.inputSteps = inputSteps;
+    this.input_steps = inputSteps;
   }
 
   public Map<String, WorkflowStepOutput> getInputSteps() {
-    return this.inputSteps;
+    return this.input_steps;
   }
 
   public String getType() {
