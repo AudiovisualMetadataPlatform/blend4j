@@ -8,12 +8,6 @@ public class WorkflowDetails extends Workflow {
   private Map<String, WorkflowStepDefinition> steps;
   
   //tags  to be added
-	
-
-	/*
-	 * public ArrayList<ToolInputs> getToolinputs() { return toolinputs; }
-	 */
-
 
 public Map<String, WorkflowStepDefinition> getSteps() {
     return steps;

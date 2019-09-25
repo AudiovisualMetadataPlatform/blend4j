@@ -6,8 +6,8 @@ public class Workflow extends GalaxyObject {
   private boolean published;
   private String owner;
   private String id;
-  private String annotation;    //This might have to be moved
-  private String model_class;   //This might have to be moved
+  private String annotation;   
+  private String model_class;  
 
   public String getName() {
     return name;
