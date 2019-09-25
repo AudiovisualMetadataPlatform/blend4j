@@ -355,23 +355,25 @@ public class WorkflowsTest {
 	public void testShowWorkflowDetails() throws InterruptedException {
 	  Workflow workflow = client.importWorkflow(testAmpWorkflow1Contents);
 	  WorkflowDetails workflowDetails = client.showWorkflow(workflow.getId());
-	  
-		
-	  logger.info("=====>>>\nName:"+workflowDetails.getName()+"\nOwner"+
-	  workflowDetails.getOwner()+
-	  "\n Annotation:"+workflowDetails.getAnnotation()+"\n ID:"+workflowDetails.
-	  getId()+"\n Model Class:"+workflowDetails.getModel_class()+"\n URL:"
-	  +workflowDetails.getUrl()+
-	  "\n Inputs:"+workflowDetails.getInputs()+"\n Steps:"+workflowDetails.getSteps()+ 
-	  "\nIs Deleted :"+workflowDetails.isDeleted()+
-	  "\n Is Published:"+workflowDetails.isPublished()+
-	  "\n Tool_inputs:"+workflowDetails.getSteps().get("1").getTool_inputs());
-	  
-	  
 	  Assert.assertNotNull(workflowDetails.getId());
 	  Assert.assertNotNull(workflowDetails.getName());
 	  Assert.assertNotNull(workflowDetails.getOwner());
-	  //Assert.assertNotNull(workflowDetails.getInputs());
-	  //Assert.assertNotNull(workflowDetails.getSteps());
+		
+	/* This describes the hierarchy to be followed to access each element
+	 * 
+	 * logger.info("=====>>>\nName:"+workflowDetails.getName()+"\nOwner"+
+	 * workflowDetails.getOwner()+
+	 * "\n Annotation:"+workflowDetails.getAnnotation()+"\n ID:"+workflowDetails.
+	 * getId()+"\n Model Class:"+workflowDetails.getModel_class()+"\n URL:"
+	 * +workflowDetails.getUrl()+
+	 * "\n Inputs:"+workflowDetails.getInputs()+"\n Steps:"+workflowDetails.getSteps
+	 * ()+
+	 * "\n step_output: "+workflowDetails.getSteps().get("1").getInputSteps().get(
+	 * "input").getStepOutput() + "\nIs Deleted :"+workflowDetails.isDeleted()+
+	 * "\n Is Published:"+workflowDetails.isPublished()+
+	 * "\n Tool_inputs:"+workflowDetails.getSteps().get("1").getTool_inputs());
+	 */
+		 
+	  
 	  }
 }
