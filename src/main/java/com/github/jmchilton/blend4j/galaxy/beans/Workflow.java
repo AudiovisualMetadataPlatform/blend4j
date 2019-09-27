@@ -3,30 +3,24 @@ package com.github.jmchilton.blend4j.galaxy.beans;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * AMPPD extension
- * Container for fields returned upon workflow index request.
+ * Bean for fields returned upon workflow index request, which does not include detailed information on workflow inputs, steps, etc.
  */
 public class Workflow extends GalaxyObject {
 	private String name;
 	private List<String> tags = new ArrayList<String>();
 	private boolean deleted;
+	@JsonProperty("latest_workflow_uuid")
 	private String latestWorkflowUuid;
 	// omit showInToolPanel field as its not useful outside Galaxy UI
 	private String url;
+	@JsonProperty("number_of_steps")
 	private Integer numberOfSteps;
 	private boolean published;
 	private String owner;
-	private String model_class;  
-	private String id;	
-	
-	public String getId() {
-		return id;
-	}
-	
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return name;
@@ -92,12 +86,4 @@ public class Workflow extends GalaxyObject {
 		this.owner = owner;
 	}
 
-	public String getModel_class() {
-		return model_class;
-	}
-
-	public void setModel_class(String model_class) {
-		this.model_class = model_class;
-	}  
-	
 }

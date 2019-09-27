@@ -1,23 +1,30 @@
 package com.github.jmchilton.blend4j.galaxy.beans;
 
+import java.util.Date;
+
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
- * The container for fields included in an invocation step as part of the returned info upon workflow invocation.
+ * AMPPD extension
+ * Bean for fields included in an invocation step, without job/outputs details.
  */
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class InvocationStep {
+	@JsonProperty("workflow_step_uuid")
 	private String workflowStepUuid;
-	private String updateTime;
+	@JsonProperty("update_time")
+	private Date updateTime;
+	@JsonProperty("job_id")
 	private String jobId;
+	@JsonProperty("order_index")
 	private String orderIndex;
-	// we omit the output_collection, since we don't use collection
+	@JsonProperty("workflow_step_label")
 	private String workflowStepLabel;	
 	private String state;
 	private String action;
-	private String modelClass;
+	@JsonProperty("workflow_step_id")
 	private String workflowStepId;
-	private String id;
 	
 	public String getWorkflowStepUuid() {
 		return workflowStepUuid;
@@ -27,11 +34,11 @@ public class InvocationStep {
 		this.workflowStepUuid = workflowStepUuid;
 	}
 	
-	public String getUpdateTime() {
+	public Date getUpdateTime() {
 		return updateTime;
 	}
 	
-	public void setUpdateTime(String updateTime) {
+	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
 	
@@ -75,28 +82,12 @@ public class InvocationStep {
 		this.action = action;
 	}
 	
-	public String getModelClass() {
-		return modelClass;
-	}
-	
-	public void setModelClass(String modelClass) {
-		this.modelClass = modelClass;
-	}
-	
 	public String getWorkflowStepId() {
 		return workflowStepId;
 	}
 	
 	public void setWorkflowStepId(String workflowStepId) {
 		this.workflowStepId = workflowStepId;
-	}
-	
-	public String getId() {
-		return id;
-	}
-	
-	public void setId(String id) {
-		this.id = id;
-	}		
+	}	
 	
 }

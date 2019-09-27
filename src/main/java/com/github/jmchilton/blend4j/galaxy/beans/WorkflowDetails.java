@@ -4,7 +4,7 @@ import java.util.Map;
 
 /**
  * AMPPD extension
- * Container for fields returned upon workflow show request.
+ * Bean for fields returned upon workflow show request, which includes detailed information on workflow inputs, steps, etc.
  */
 public class WorkflowDetails extends Workflow {
 	private Map<String, WorkflowInputDefinition> inputs;
