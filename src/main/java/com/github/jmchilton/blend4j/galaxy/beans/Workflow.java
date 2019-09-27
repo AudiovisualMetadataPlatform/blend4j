@@ -10,13 +10,13 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * Bean for fields returned upon workflow index request, which does not include detailed information on workflow inputs, steps, etc.
  */
 public class Workflow extends GalaxyObject {
+	
 	private String name;
 	private List<String> tags = new ArrayList<String>();
 	private boolean deleted;
 	@JsonProperty("latest_workflow_uuid")
 	private String latestWorkflowUuid;
 	// omit showInToolPanel field as its not useful outside Galaxy UI
-	private String url;
 	@JsonProperty("number_of_steps")
 	private Integer numberOfSteps;
 	private boolean published;
@@ -52,14 +52,6 @@ public class Workflow extends GalaxyObject {
 
 	public void setLatestWorkflowUuid(String latestWorkflowUuid) {
 		this.latestWorkflowUuid = latestWorkflowUuid;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
 	}
 
 	public Integer getNumberOfSteps() {

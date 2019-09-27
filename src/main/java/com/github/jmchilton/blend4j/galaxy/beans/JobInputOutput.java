@@ -11,6 +11,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class JobInputOutput extends GalaxyObject {
+	
   public static enum Source {
     library(), hda(), ldda();
 
