@@ -11,6 +11,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class InvocationStep {
+	
 	@JsonProperty("workflow_step_uuid")
 	private String workflowStepUuid;
 	@JsonProperty("update_time")

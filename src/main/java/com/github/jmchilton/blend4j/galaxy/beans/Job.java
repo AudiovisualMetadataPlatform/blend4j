@@ -11,6 +11,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Job extends GalaxyObject {
+	
 	@JsonProperty("tool_id")
 	private String toolId;
 	@JsonProperty("update_time")

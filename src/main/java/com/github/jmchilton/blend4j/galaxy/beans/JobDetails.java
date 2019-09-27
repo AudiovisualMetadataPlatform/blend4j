@@ -13,6 +13,7 @@ import java.util.Map;
  */
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class JobDetails extends Job {
+	
 	@JsonProperty("command_line")
 	private String commandLine;
 	
