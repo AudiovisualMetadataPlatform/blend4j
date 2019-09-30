@@ -7,7 +7,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 /**
  * AMPPD extension
- * Bean for fields returned by Galaxy upon workflow invocation, which contains basic information of each invocation step. 
+ * Bean for fields returned by Galaxy upon workflow invocation, which contains inputs/outputs and basic information of each invocation step without details about jobs/outputs. 
  */
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class WorkflowOutputs extends InvocationBase {

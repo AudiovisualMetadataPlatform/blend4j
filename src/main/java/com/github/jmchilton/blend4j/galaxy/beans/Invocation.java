@@ -1,25 +1,56 @@
 package com.github.jmchilton.blend4j.galaxy.beans;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * AMPPD extension
- * Bean for fields related to a workflow invocation, including the detailed information such as jobs/outputs of each invocation step. 
+ * Bean for basic information related to workflow invocation, which corresponds to the results returned by Galaxy API upon indexing invocations.
  */
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class Invocation extends InvocationBase {
+public class Invocation extends GalaxyObject {
 	
-	private List<InvocationStepDetails> steps = new ArrayList<InvocationStepDetails>();
-
-	public List<InvocationStepDetails> getSteps() {
-		return steps;
+	@JsonProperty("update_time")
+	private Date updateTime;
+	private String historyId;	// correspond to "history", which is the same as historyId
+	private String state;
+	// we omit the output_collection, since we don't use collection
+	@JsonProperty("workflow_id")
+	private String workflowId;	// an internal workflow ID, not the same as the API workflowId used for workflow query/invocation
+	
+	public String getHistoryId() {
+		return historyId;
 	}
 
-	public void setSteps(List<InvocationStepDetails> steps) {
-		this.steps = steps;
+	@JsonProperty("history")
+	public void setHistoryId(final String historyId) {
+		this.historyId = historyId;
 	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getWorkflowId() {
+		return workflowId;
+	}
+
+	public void setWorkflowId(String workflowId) {
+		this.workflowId = workflowId;
+	}	
 	
 }
