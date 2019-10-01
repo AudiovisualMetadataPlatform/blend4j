@@ -85,7 +85,7 @@ class WorkflowsClientImpl extends Client implements WorkflowsClient {
 	 * Returns the WebResource for the specified step of the specified invocation of the specified workflow.
 	 * @param workflowId ID of the specified workflow.
 	 * @param invocationId ID of the specified invocation.
-	 * @param invocationId ID of the specified step.
+	 * @param stepId ID of the specified step.
 	 * @return
 	 */
 	protected WebResource getInvocationWebResource(String workflowId, String invocationId, String stepId) {
@@ -94,24 +94,17 @@ class WorkflowsClientImpl extends Client implements WorkflowsClient {
 
 	@Override
 	public List<Invocation> indexInvocations(String workflowId, String historyId) {
-		return get(getInvocationWebResource(workflowId), new TypeReference<List<Invocation>>() {});
+		return get(getInvocationWebResource(workflowId).queryParam("history_id",  historyId), new TypeReference<List<Invocation>>() {});
 	}
 
 	@Override
 	public Invocation showInvocation(String workflowId, String invocationId, Boolean detailed) {
-		if (detailed) {
-			return getInvocationWebResource(workflowId, invocationId).get(Invocation.class);
-		}
-		else {
-			return getInvocationWebResource(workflowId, invocationId).get(Invocation.class);
-		}
+		return getInvocationWebResource(workflowId, invocationId).queryParam("step_details",  detailed.toString()).get(Invocation.class);
 	}
 
 	@Override
 	public InvocationStepDetails showInvocationStep(String workflowId, String invocationId, String stepId) {
 		return getInvocationWebResource(workflowId, invocationId, stepId).get(InvocationStepDetails.class);	  
 	}
-
-
 
 }
