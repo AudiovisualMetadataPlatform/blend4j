@@ -10,7 +10,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * Bean for fields included in an invocation step, without job/outputs details.
  */
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class InvocationStep {
+public class InvocationStep extends GalaxyObject {
 	
 	@JsonProperty("workflow_step_uuid")
 	private String workflowStepUuid;
@@ -19,7 +19,7 @@ public class InvocationStep {
 	@JsonProperty("job_id")
 	private String jobId;
 	@JsonProperty("order_index")
-	private String orderIndex;
+	private Integer orderIndex;
 	@JsonProperty("workflow_step_label")
 	private String workflowStepLabel;	
 	private String state;
@@ -51,11 +51,11 @@ public class InvocationStep {
 		this.jobId = jobId;
 	}
 
-	public String getOrderIndex() {
+	public Integer getOrderIndex() {
 		return orderIndex;
 	}
 	
-	public void setOrderIndex(String orderIndex) {
+	public void setOrderIndex(Integer orderIndex) {
 		this.orderIndex = orderIndex;
 	}
 	
