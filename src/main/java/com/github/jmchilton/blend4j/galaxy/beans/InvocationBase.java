@@ -10,10 +10,20 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * AMPPD extension
- * Base class for workflow invocation related fields shared by workflow outputs and invocation detail query results, including inputs/outputs but not steps information.
+ * Base class for workflow invocation related fields shared by workflow outputs and invocation briefs/details query results, including inputs/outputs but not steps information.
  */
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class InvocationBase extends Invocation {
+
+	private Map<String, WorkflowInput> inputs = new HashMap<String, WorkflowInput>();
+
+	public Map<String, WorkflowInput> getInputs() {
+		return inputs;
+	}
+
+	public void setInputs(Map<String, WorkflowInput> inputs) {
+		this.inputs = inputs;
+	}
 
 	// we could have inherited from WorkflowInputs.WorkflowInput, except that "src" is of Enum InputSourceType, which uses upper case names, 
 	// and that differs from the actual string values returned by Galaxy, so it can't be understood by json parser 
@@ -48,26 +58,6 @@ public class InvocationBase extends Invocation {
 		public void setUuid(String uuid) {
 			this.uuid = uuid;
 		}		
-	}
-
-	private Map<String, WorkflowInput> inputs = new HashMap<String, WorkflowInput>();
-	private List<String> outputIds = new ArrayList<String>(); // correspond to "output" field
-
-	public Map<String, WorkflowInput> getInputs() {
-		return inputs;
-	}
-
-	public List<String> getOutputIds() {
-		return outputIds;
-	}
-
-	public void setInputs(Map<String, WorkflowInput> inputs) {
-		this.inputs = inputs;
-	}
-
-	@JsonProperty("outputs")
-	public void setOutputIds(final List<String> outputIds) {
-		this.outputIds = outputIds;
-	}
+	}	
 	
 }

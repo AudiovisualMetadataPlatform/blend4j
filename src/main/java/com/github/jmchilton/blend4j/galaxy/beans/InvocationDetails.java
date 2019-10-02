@@ -7,7 +7,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 /**
  * AMPPD extension
- * Bean for fields related to a workflow invocation, including inputs/outputs and the detailed information such as jobs/outputs of each invocation step. 
+ * Bean for fields related to a workflow invocation, including inputs and the detailed information such as jobs/outputs of each invocation step. 
  */
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class InvocationDetails extends InvocationBase {

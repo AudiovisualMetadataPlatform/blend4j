@@ -14,7 +14,9 @@ public class Invocation extends GalaxyObject {
 	
 	@JsonProperty("update_time")
 	private Date updateTime;
-	private String historyId;	// correspond to "history", which is the same as historyId
+	// in response from workflow invocation, there is also a field "history", which is the same as historyId, but its not present in workflow invocation query
+	@JsonProperty("history_id")
+	private String historyId;	
 	private String state;
 	// we omit the output_collection, since we don't use collection
 	@JsonProperty("workflow_id")
@@ -24,7 +26,6 @@ public class Invocation extends GalaxyObject {
 		return historyId;
 	}
 
-	@JsonProperty("history")
 	public void setHistoryId(final String historyId) {
 		this.historyId = historyId;
 	}
