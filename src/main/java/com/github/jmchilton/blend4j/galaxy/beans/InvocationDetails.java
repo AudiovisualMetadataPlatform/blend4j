@@ -10,7 +10,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
  * Bean for fields related to a workflow invocation, including inputs/outputs and the detailed information such as jobs/outputs of each invocation step. 
  */
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class InvocationDetail extends InvocationBase {
+public class InvocationDetails extends InvocationBase {
 
 	private List<InvocationStepDetails> steps = new ArrayList<InvocationStepDetails>();
 

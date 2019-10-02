@@ -5,6 +5,8 @@ import java.util.List;
 import org.codehaus.jackson.type.TypeReference;
 
 import com.github.jmchilton.blend4j.galaxy.beans.Invocation;
+import com.github.jmchilton.blend4j.galaxy.beans.InvocationBase;
+import com.github.jmchilton.blend4j.galaxy.beans.InvocationDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.InvocationStepDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.Workflow;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowDetails;
@@ -98,8 +100,13 @@ class WorkflowsClientImpl extends Client implements WorkflowsClient {
 	}
 
 	@Override
-	public Invocation showInvocation(String workflowId, String invocationId, Boolean detailed) {
-		return getInvocationWebResource(workflowId, invocationId).queryParam("step_details",  detailed.toString()).get(Invocation.class);
+	public InvocationBase showInvocation(String workflowId, String invocationId, Boolean detailed) {
+		if (detailed) {
+			return getInvocationWebResource(workflowId, invocationId).queryParam("step_details", "true").get(InvocationDetails.class);
+		}
+		else {
+			return getInvocationWebResource(workflowId, invocationId).get(WorkflowOutputs.class);
+		}
 	}
 
 	@Override

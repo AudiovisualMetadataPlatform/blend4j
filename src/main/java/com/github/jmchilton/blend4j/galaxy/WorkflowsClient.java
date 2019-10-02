@@ -3,6 +3,7 @@ package com.github.jmchilton.blend4j.galaxy;
 import java.util.List;
 
 import com.github.jmchilton.blend4j.galaxy.beans.Invocation;
+import com.github.jmchilton.blend4j.galaxy.beans.InvocationBase;
 import com.github.jmchilton.blend4j.galaxy.beans.InvocationStepDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.Workflow;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowDetails;
@@ -57,7 +58,7 @@ public interface WorkflowsClient {
    * @param detailed whether to show the step details within the invocation
    * @return an instance containing the requested information of the invocation 
    */
-  public Invocation showInvocation(String workflowId, String invocationId, Boolean detailed);
+  public InvocationBase showInvocation(String workflowId, String invocationId, Boolean detailed);
   
   /**
    * Show the detailed information for the specified workflow invocation step.

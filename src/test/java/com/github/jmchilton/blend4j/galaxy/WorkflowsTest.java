@@ -13,7 +13,10 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.github.jmchilton.blend4j.galaxy.beans.Invocation;
+import com.github.jmchilton.blend4j.galaxy.beans.InvocationDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.InvocationStep;
+import com.github.jmchilton.blend4j.galaxy.beans.InvocationStepDetails;
+import com.github.jmchilton.blend4j.galaxy.beans.Job;
 import com.github.jmchilton.blend4j.galaxy.beans.Workflow;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInputDefinition;
@@ -386,8 +389,8 @@ public class WorkflowsTest {
 		Assert.assertNotNull(workflowDetails.getOwner());
 	}
 	
-	@Test(dependsOnMethods = { "testRunWorkflow()" })
-	public void testIndexInvocations() {
+	@Test
+	public void testIndexInvocations() throws IOException, InterruptedException {
 		ensureHasTestWorkflow1();
 
 		// Find history
@@ -413,11 +416,136 @@ public class WorkflowsTest {
 		// verify basic info of the invocations
 		assert !invocations.isEmpty();
 		Invocation invocation = invocations.get(0);
-		assert !wos.getId().isEmpty();
-		assert wos.getUpdateTime() != null;
-		assert wos.getHistoryId().equals(historyId);
-		assert wos.getState().equals("scheduled");
-		assert wos.getWorkflowId() != null;				
+		assert !invocation.getId().isEmpty();
+		assert invocation.getUpdateTime() != null;
+		assert invocation.getHistoryId().equals(historyId);
+		assert invocation.getState().equals("scheduled");
+		assert invocation.getWorkflowId() != null;				
 	}
+	
+	@Test
+	public void testShowInvocation() throws IOException, InterruptedException {
+		ensureHasTestWorkflow1();
+
+		// Find history
+		final String historyId = TestHelpers.getTestHistoryId(instance);
+		final List<String> ids = TestHelpers.populateTestDatasets(instance, historyId, 2);
+
+		final String input1Id = ids.get(0);
+		final String input2Id = ids.get(1);
+
+		final String testWorkflowId = getTestWorkflowId();
+		final WorkflowDetails workflowDetails = client.showWorkflow(testWorkflowId);
+		String workflowInput1Id = getWorkflowInputId(workflowDetails, "WorkflowInput1");
+		String workflowInput2Id = getWorkflowInputId(workflowDetails, "WorkflowInput2");
+
+		final WorkflowInputs inputs = new WorkflowInputs();
+		inputs.setDestination(new ExistingHistory(historyId));
+		inputs.setWorkflowId(testWorkflowId);
+		inputs.setInput(workflowInput1Id, new WorkflowInput(input1Id, InputSourceType.HDA));
+		inputs.setInput(workflowInput2Id, new WorkflowInput(input2Id, InputSourceType.HDA));
+		final WorkflowOutputs wos = client.runWorkflow(inputs);		
+
+		// verify invocation without step details
+		assert client.showInvocation(testWorkflowId, wos.getId(), false) instanceof WorkflowOutputs;
+		
+		// verify invocation with step details
+		InvocationDetails invdetails = (InvocationDetails) client.showInvocation(testWorkflowId, wos.getId(), false);		
+		
+		// verify basic info of the invocationDetails
+		assert !invdetails.getId().isEmpty();
+		assert invdetails.getUpdateTime() != null;
+		assert invdetails.getHistoryId().equals(historyId);
+		assert invdetails.getState().equals("scheduled");
+		assert invdetails.getWorkflowId() != null;
+
+		// verify inputs in invocationDetails
+		assert !invdetails.getInputs().get("0").getId().isEmpty();
+		assert !invdetails.getInputs().get("0").getSrc().equals("hda");
+		
+		// verify outputs in invocationDetails
+		for (final String outputId : invdetails.getOutputIds()) {
+			System.out.println("  Workflow Output ID " + outputId);
+			assert !outputId.isEmpty();
+		}
+		
+		// verify steps in invocationDetails
+		assert invdetails.getSteps().size() == 3;
+		InvocationStepDetails step = invdetails.getSteps().get(2);
+		assert !step.getId().isEmpty();
+		assert step.getUpdateTime() != null;
+		assert !step.getJobId().isEmpty();
+		assert step.getOrderIndex() == 2;
+		assert step.getWorkflowStepLabel().equals("");
+		assert step.getState().equals("scheduled");
+		
+		// verify jobs details in invocationDetails
+		assert step.getJobs().size() == 1;
+		Job job = step.getJobs().get(0);
+		assert !job.getId().isEmpty();
+		assert !job.getToolId().isEmpty();
+		assert job.getUpdated() != null;
+		assert job.getExitCode() == 0;
+		assert job.getState().equals("ok");
+		assert job.getCreated() != null;
+
+		// verify outputs details in invocationDetails
+		assert step.getOutputs().size() == 1;
+		step.getOutputs().forEach( (k,v) -> {
+			assert !v.getId().isEmpty();
+			assert !v.getSource().equals("hda");
+		});		
+	}
+		
+	@Test
+	public void testShowInvocationStep() throws IOException, InterruptedException {
+		ensureHasTestWorkflow1();
+
+		// Find history
+		final String historyId = TestHelpers.getTestHistoryId(instance);
+		final List<String> ids = TestHelpers.populateTestDatasets(instance, historyId, 2);
+
+		final String input1Id = ids.get(0);
+		final String input2Id = ids.get(1);
+
+		final String testWorkflowId = getTestWorkflowId();
+		final WorkflowDetails workflowDetails = client.showWorkflow(testWorkflowId);
+		String workflowInput1Id = getWorkflowInputId(workflowDetails, "WorkflowInput1");
+		String workflowInput2Id = getWorkflowInputId(workflowDetails, "WorkflowInput2");
+
+		final WorkflowInputs inputs = new WorkflowInputs();
+		inputs.setDestination(new ExistingHistory(historyId));
+		inputs.setWorkflowId(testWorkflowId);
+		inputs.setInput(workflowInput1Id, new WorkflowInput(input1Id, InputSourceType.HDA));
+		inputs.setInput(workflowInput2Id, new WorkflowInput(input2Id, InputSourceType.HDA));
+		final WorkflowOutputs wos = client.runWorkflow(inputs);		
+		InvocationStepDetails step = client.showInvocationStep(testWorkflowId, wos.getId(), wos.getSteps().get(2).getId());		
+		
+		// verify basic information of the step
+		assert !step.getId().isEmpty();
+		assert step.getUpdateTime() != null;
+		assert !step.getJobId().isEmpty();
+		assert step.getOrderIndex() == 2;
+		assert step.getWorkflowStepLabel().equals("");
+		assert step.getState().equals("scheduled");
+		
+		// verify jobs details in invocationDetails
+		assert step.getJobs().size() == 1;
+		Job job = step.getJobs().get(0);
+		assert !job.getId().isEmpty();
+		assert !job.getToolId().isEmpty();
+		assert job.getUpdated() != null;
+		assert job.getExitCode() == 0;
+		assert job.getState().equals("ok");
+		assert job.getCreated() != null;
+
+		// verify outputs details in invocationDetails
+		assert step.getOutputs().size() == 1;
+		step.getOutputs().forEach( (k,v) -> {
+			assert !v.getId().isEmpty();
+			assert !v.getSource().equals("hda");
+		});			
+	}
+		
 	
 }
