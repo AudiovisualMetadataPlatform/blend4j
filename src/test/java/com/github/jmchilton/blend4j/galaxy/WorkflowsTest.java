@@ -484,6 +484,8 @@ public class WorkflowsTest {
 		assert !job.getId().isEmpty();
 		assert !job.getToolId().isEmpty();
 		assert job.getUpdated() != null;
+		// The following to asserts would pass if the test is run in debug mode, but would fail if run without delay. 
+		// This is due to the fact that when Galaxy process workflow invocation requests, it returns after jobs are queued without waiting for the jobs to finish. 
 //		assert job.getExitCode() == 0;
 //		assert job.getState().equals("ok");
 		assert job.getCreated() != null;
@@ -534,6 +536,8 @@ public class WorkflowsTest {
 		assert !job.getId().isEmpty();
 		assert !job.getToolId().isEmpty();
 		assert job.getUpdated() != null;
+		// The following to asserts would pass if the test is run in debug mode, but would fail if run without delay. 
+		// This is due to the fact that when Galaxy process workflow invocation requests, it returns after jobs are queued without waiting for the jobs to finish. 
 //		assert job.getExitCode() == 0;
 //		assert job.getState().equals("ok");
 		assert job.getCreated() != null;
