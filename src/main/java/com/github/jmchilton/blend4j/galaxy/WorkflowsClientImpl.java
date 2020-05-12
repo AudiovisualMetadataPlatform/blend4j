@@ -104,8 +104,8 @@ class WorkflowsClientImpl extends Client implements WorkflowsClient {
 	}
 
 	@Override
-	public List<InvocationDetails> indexInvocationsDetails(String userId) {
-		return get(getInvocationWebResource().queryParam("view", "element").queryParam("step_details", "true").queryParam("user_id",  userId), new TypeReference<List<InvocationDetails>>() {});
+	public List<InvocationDetails> indexInvocationsDetails(String username) {
+		return get(getInvocationWebResource().queryParam("view", "element").queryParam("step_details", "true").queryParam("user_id",  username), new TypeReference<List<InvocationDetails>>() {});
 	}
 
 	@Override

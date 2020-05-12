@@ -46,10 +46,10 @@ public interface WorkflowsClient {
   
   /**
    * Lists all invocations with step details for the specified user.
-   * @param userId ID of the specified user
+   * @param username ID of the specified user
    * @return a list of requested InvocationDetails (i.e. invocations with job/output details for each step) 
    */
-  public List<InvocationDetails> indexInvocationsDetails(String userId);
+  public List<InvocationDetails> indexInvocationsDetails(String username);
 
   /**
    * Lists all invocations of the specified workflow within the specified history.
