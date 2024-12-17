@@ -60,6 +60,24 @@ public interface WorkflowsClient {
   WorkflowOutputs runWorkflow(WorkflowInputs workflowInputs);
   
   /**
+   * Updates the workflow with the given id to the new value.
+   * @param id ID of the workflow to update
+   * @param workflowDetails the new workflow to update to
+   * @return the updated workflow
+   */
+  public WorkflowDetails updateWorkflow(String id, WorkflowDetails workflowDetails);
+
+  /**
+   * Updates the workflow with the given id to the new value.
+   * @param id ID of the workflow to update
+   * @param workflowDetails the new workflow to update to
+   * @return A {@link ClientResponse} for this request. The status code provided
+   *         by {@link ClientResponse#getClientResponseStatus()} should be
+   *         verified for success.
+   */
+  public ClientResponse updateWorkflowRequest(String id, WorkflowDetails workflowDetails);
+
+  /**
    * Deletes the workflow with the given id (this is irreversible). This will
    * return a {@link ClientResponse} object providing access to the status code
    * and the non-serialized body of the response.
@@ -70,7 +88,7 @@ public interface WorkflowsClient {
    *         by {@link ClientResponse#getClientResponseStatus()} should be
    *         verified for success.
    */
-  ClientResponse deleteWorkflowRequest(String id);
+  public ClientResponse deleteWorkflowRequest(String id);
   
   /**
    * Lists all invocations with step details for the specified user.
