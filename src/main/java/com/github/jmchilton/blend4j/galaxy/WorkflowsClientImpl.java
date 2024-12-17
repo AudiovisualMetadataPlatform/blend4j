@@ -87,6 +87,17 @@ class WorkflowsClientImpl extends Client implements WorkflowsClient {
 	}
 
 	@Override
+	public WorkflowDetails updateWorkflow(String id, WorkflowDetails workflowDetails) {
+		ClientResponse response = updateWorkflowRequest(id, workflowDetails);
+		return response.getEntity(WorkflowDetails.class);
+	}
+
+	@Override
+	public ClientResponse updateWorkflowRequest(String id, WorkflowDetails workflowDetails) {
+		return update(getWebResource(id), workflowDetails);
+	}
+
+	@Override
 	public ClientResponse deleteWorkflowRequest(String id) {
 		return deleteResponse(getWebResource(id));
 	}
