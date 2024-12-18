@@ -9,6 +9,7 @@ import com.github.jmchilton.blend4j.galaxy.beans.InvocationStepDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.Workflow;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInputs;
+import com.github.jmchilton.blend4j.galaxy.beans.WorkflowMeta;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowOutputs;
 import com.sun.jersey.api.client.ClientResponse;
 
@@ -59,23 +60,41 @@ public interface WorkflowsClient {
 
   WorkflowOutputs runWorkflow(WorkflowInputs workflowInputs);
   
-  /**
-   * Updates the workflow with the given id to the new value.
-   * @param id ID of the workflow to update
-   * @param workflowDetails the new workflow to update to
-   * @return the updated workflow
-   */
-  public WorkflowDetails updateWorkflow(String id, WorkflowDetails workflowDetails);
+//  /**
+//   * Updates the workflow with the given id to the new value.
+//   * @param id ID of the workflow to update
+//   * @param workflowDetails the new workflow to update to
+//   * @return the updated workflow
+//   */
+//  public WorkflowDetails updateWorkflow(String id, WorkflowDetails workflowDetails);
+//
+//  /**
+//   * Updates the workflow with the given id to the new value.
+//   * @param id ID of the workflow to update
+//   * @param workflowDetails the new workflow to update to
+//   * @return A {@link ClientResponse} for this request. The status code provided
+//   *         by {@link ClientResponse#getClientResponseStatus()} should be
+//   *         verified for success.
+//   */
+//  public ClientResponse updateWorkflowRequest(String id, WorkflowDetails workflowDetails);
 
   /**
-   * Updates the workflow with the given id to the new value.
+   * Updates the metadata of the given workflow to the given value.
    * @param id ID of the workflow to update
-   * @param workflowDetails the new workflow to update to
+   * @param workflowMeta the metadata to update to
+   * @return the updated workflow
+   */
+  public WorkflowDetails updateWorkflow(String id, WorkflowMeta workflowMeta);
+
+  /**
+   * Updates the metadata of the given workflow to the given value.
+   * @param id ID of the workflow to update
+   * @param workflowMeta the metadata to update to
    * @return A {@link ClientResponse} for this request. The status code provided
    *         by {@link ClientResponse#getClientResponseStatus()} should be
    *         verified for success.
    */
-  public ClientResponse updateWorkflowRequest(String id, WorkflowDetails workflowDetails);
+  public ClientResponse updateWorkflowRequest(String id, WorkflowMeta workflowMeta);
 
   /**
    * Deletes the workflow with the given id (this is irreversible). This will

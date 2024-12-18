@@ -12,6 +12,7 @@ import com.github.jmchilton.blend4j.galaxy.beans.InvocationStepDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.Workflow;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInputs;
+import com.github.jmchilton.blend4j.galaxy.beans.WorkflowMeta;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowOutputs;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -86,15 +87,26 @@ class WorkflowsClientImpl extends Client implements WorkflowsClient {
 		return importWorkflowResponse(json).getEntity(Workflow.class);
 	}
 
+//	@Override
+//	public WorkflowDetails updateWorkflow(String id, WorkflowDetails workflowDetails) {
+//		ClientResponse response = updateWorkflowRequest(id, workflowDetails);
+//		return response.getEntity(WorkflowDetails.class);
+//	}
+//
+//	@Override
+//	public ClientResponse updateWorkflowRequest(String id, WorkflowDetails workflowDetails) {
+//		return update(getWebResource(id), workflowDetails);
+//	}
+	
 	@Override
-	public WorkflowDetails updateWorkflow(String id, WorkflowDetails workflowDetails) {
-		ClientResponse response = updateWorkflowRequest(id, workflowDetails);
+	public WorkflowDetails updateWorkflow(String id, WorkflowMeta workflowMeta) {
+		ClientResponse response = updateWorkflowRequest(id, workflowMeta);
 		return response.getEntity(WorkflowDetails.class);
 	}
 
 	@Override
-	public ClientResponse updateWorkflowRequest(String id, WorkflowDetails workflowDetails) {
-		return update(getWebResource(id), workflowDetails);
+	public ClientResponse updateWorkflowRequest(String id, WorkflowMeta workflowMeta) {
+		return update(getWebResource(id), workflowMeta);
 	}
 
 	@Override
