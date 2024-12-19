@@ -50,6 +50,7 @@ class WorkflowsClientImpl extends Client implements WorkflowsClient {
 		return get(webResource, new TypeReference<List<Workflow>>() {});
 	}
 	
+	@Override
 	public ClientResponse showWorkflowResponse(final String id) {
 		return super.show(id, ClientResponse.class);
 	}
@@ -65,39 +66,33 @@ class WorkflowsClientImpl extends Client implements WorkflowsClient {
 		return getWebResource(workflowId).queryParam("instance",  "true").get(WorkflowDetails.class);
 	}
 
+	@Override
 	public String exportWorkflow(final String id) {
 		WebResource webResource = getWebResource().path("download").path(id);
 		return webResource.get(String.class);
 	}
 
+	@Override
 	public ClientResponse runWorkflowResponse(WorkflowInputs workflowInputs) {
 		return super.create(workflowInputs);
 	}
 
+	@Override
 	public WorkflowOutputs runWorkflow(final WorkflowInputs workflowInputs) {
 		return runWorkflowResponse(workflowInputs).getEntity(WorkflowOutputs.class);
 	}
 
+	@Override
 	public ClientResponse importWorkflowResponse(final String json) {
 		final String payload = String.format("{\"workflow\": %s}", json);
 		return create(getWebResource().path("upload"), payload);
 	}
 
+	@Override
 	public Workflow importWorkflow(String json) {
 		return importWorkflowResponse(json).getEntity(Workflow.class);
 	}
 
-//	@Override
-//	public WorkflowDetails updateWorkflow(String id, WorkflowDetails workflowDetails) {
-//		ClientResponse response = updateWorkflowRequest(id, workflowDetails);
-//		return response.getEntity(WorkflowDetails.class);
-//	}
-//
-//	@Override
-//	public ClientResponse updateWorkflowRequest(String id, WorkflowDetails workflowDetails) {
-//		return update(getWebResource(id), workflowDetails);
-//	}
-	
 	@Override
 	public WorkflowDetails updateWorkflow(String id, WorkflowMetadata workflowMeta) {
 		ClientResponse response = updateWorkflowRequest(id, workflowMeta);

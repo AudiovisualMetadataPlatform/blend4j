@@ -39,8 +39,10 @@ public interface WorkflowsClient {
    * @param id the ID of the specified StoredWorkflow 
    * @return the queried workflow details
    */
-  WorkflowDetails showWorkflow(String id);
+  public WorkflowDetails showWorkflow(String id);
 
+  public ClientResponse showWorkflowResponse(final String id);
+  
   /**
    * Show details of the specified workflow instance. 
    * Note: The difference between this method and showWorkflow is that, 
@@ -48,36 +50,18 @@ public interface WorkflowsClient {
    * @param workflowId the workflow ID of the specified workflow instance which may not have been stored
    * @return the queried workflow details
    */
-  WorkflowDetails showWorkflowInstance(String workflowId);
+  public WorkflowDetails showWorkflowInstance(String workflowId);
 
-  String exportWorkflow(String id);
+  public String exportWorkflow(String id);
 
-  Workflow importWorkflow(String json);
+  public Workflow importWorkflow(String json);
 
-  ClientResponse importWorkflowResponse(String json);
+  public ClientResponse importWorkflowResponse(String json);
 
-  ClientResponse runWorkflowResponse(WorkflowInputs workflowInputs);
+  public ClientResponse runWorkflowResponse(WorkflowInputs workflowInputs);
 
-  WorkflowOutputs runWorkflow(WorkflowInputs workflowInputs);
+  public WorkflowOutputs runWorkflow(WorkflowInputs workflowInputs);
   
-//  /**
-//   * Updates the workflow with the given id to the new value.
-//   * @param id ID of the workflow to update
-//   * @param workflowDetails the new workflow to update to
-//   * @return the updated workflow
-//   */
-//  public WorkflowDetails updateWorkflow(String id, WorkflowDetails workflowDetails);
-//
-//  /**
-//   * Updates the workflow with the given id to the new value.
-//   * @param id ID of the workflow to update
-//   * @param workflowDetails the new workflow to update to
-//   * @return A {@link ClientResponse} for this request. The status code provided
-//   *         by {@link ClientResponse#getClientResponseStatus()} should be
-//   *         verified for success.
-//   */
-//  public ClientResponse updateWorkflowRequest(String id, WorkflowDetails workflowDetails);
-
   /**
    * Updates the metadata of the given workflow to the given value.
    * @param id ID of the workflow to update
