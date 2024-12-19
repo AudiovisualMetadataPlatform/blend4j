@@ -12,7 +12,7 @@ import com.github.jmchilton.blend4j.galaxy.beans.InvocationStepDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.Workflow;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInputs;
-import com.github.jmchilton.blend4j.galaxy.beans.WorkflowMeta;
+import com.github.jmchilton.blend4j.galaxy.beans.WorkflowMetadata;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowOutputs;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -99,13 +99,13 @@ class WorkflowsClientImpl extends Client implements WorkflowsClient {
 //	}
 	
 	@Override
-	public WorkflowDetails updateWorkflow(String id, WorkflowMeta workflowMeta) {
+	public WorkflowDetails updateWorkflow(String id, WorkflowMetadata workflowMeta) {
 		ClientResponse response = updateWorkflowRequest(id, workflowMeta);
 		return response.getEntity(WorkflowDetails.class);
 	}
 
 	@Override
-	public ClientResponse updateWorkflowRequest(String id, WorkflowMeta workflowMeta) {
+	public ClientResponse updateWorkflowRequest(String id, WorkflowMetadata workflowMeta) {
 		return update(getWebResource(id), workflowMeta);
 	}
 
