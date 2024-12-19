@@ -9,7 +9,7 @@ import com.github.jmchilton.blend4j.galaxy.beans.InvocationStepDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.Workflow;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInputs;
-import com.github.jmchilton.blend4j.galaxy.beans.WorkflowMeta;
+import com.github.jmchilton.blend4j.galaxy.beans.WorkflowMetadata;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowOutputs;
 import com.sun.jersey.api.client.ClientResponse;
 
@@ -84,7 +84,7 @@ public interface WorkflowsClient {
    * @param workflowMeta the metadata to update to
    * @return the updated workflow
    */
-  public WorkflowDetails updateWorkflow(String id, WorkflowMeta workflowMeta);
+  public WorkflowDetails updateWorkflow(String id, WorkflowMetadata workflowMeta);
 
   /**
    * Updates the metadata of the given workflow to the given value.
@@ -94,7 +94,7 @@ public interface WorkflowsClient {
    *         by {@link ClientResponse#getClientResponseStatus()} should be
    *         verified for success.
    */
-  public ClientResponse updateWorkflowRequest(String id, WorkflowMeta workflowMeta);
+  public ClientResponse updateWorkflowRequest(String id, WorkflowMetadata workflowMeta);
 
   /**
    * Deletes the workflow with the given id (this is irreversible). This will

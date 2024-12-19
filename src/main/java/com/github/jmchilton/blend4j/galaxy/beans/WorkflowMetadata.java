@@ -5,7 +5,7 @@ package com.github.jmchilton.blend4j.galaxy.beans;
  * AMPPD extension
  * Bean for workflow metedata fields that can be updated.
  */
-public class WorkflowMeta {
+public class WorkflowMetadata {
 	
 	private boolean published;
 	private boolean hidden;
