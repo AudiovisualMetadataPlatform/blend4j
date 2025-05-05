@@ -18,9 +18,14 @@ public class Workflow extends GalaxyObject {
 	private boolean published;
 	private boolean deleted;
 	private boolean hidden;	
+	
 	@JsonProperty("show_in_tool_panel")
 	private boolean showInToolPanel;
 
+	// AMP Customization
+	// true if and only if any job of the workflow is IN_PROGRESS or SCHEDULED 
+	private boolean running;
+	
 	// Note: Galaxy list workflows API includes annotations instead of annotation, while the show workflow API includes annotation but not annotations.
 	private List<String> annotations = new ArrayList<String>();
 	private List<String> tags = new ArrayList<String>();
@@ -35,8 +40,10 @@ public class Workflow extends GalaxyObject {
 	
 	@JsonProperty("number_of_steps")
 	private Integer numberOfSteps;
+	
+	// AMP Customization
 	@JsonProperty("creator")
-	private List<WorkflowCreator> creator = new ArrayList<WorkflowCreator>(); // AMP Customization
+	private List<WorkflowCreator> creator = new ArrayList<WorkflowCreator>(); 
 	
 	public String getName() {
 		return name;
@@ -142,8 +149,20 @@ public class Workflow extends GalaxyObject {
 		return "";
 	}
 
+	// AMP Customization
 	public void setCreator(List<WorkflowCreator> creator) {
 		this.creator = creator;
 	}
+
+	// AMP Customization
+	public boolean isRunning() {
+		return running;
+	}
+
+	// AMP Customization
+	public void setRunning(boolean running) {
+		this.running = running;
+	}
+		
 	
 }
