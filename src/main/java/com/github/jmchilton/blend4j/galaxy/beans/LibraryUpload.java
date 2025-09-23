@@ -81,8 +81,8 @@ public class LibraryUpload extends GalaxyObject {
   }
 
   // AMPPD customization: added since Galaxy 25.0
-  public Source getSource() {
-	return source;
+  public String getSource() {
+	return source.toJson();
   }
 
   // AMPPD customization: not used since Galaxy 25.0, can be ignored
