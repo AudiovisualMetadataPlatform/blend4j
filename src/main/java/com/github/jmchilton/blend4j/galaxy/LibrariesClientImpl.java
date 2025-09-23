@@ -1,6 +1,8 @@
 package com.github.jmchilton.blend4j.galaxy;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.codehaus.jackson.type.TypeReference;
 
@@ -16,9 +18,10 @@ import com.github.jmchilton.blend4j.galaxy.beans.LibraryPermissions;
 import com.github.jmchilton.blend4j.galaxy.beans.UrlLibraryUpload;
 import com.sun.jersey.api.client.ClientResponse;
 
-import java.util.HashMap;
-import java.util.Map;
-
+/**
+ * AMPPD extension
+ * Implementation for libraries and its contents/datasets.
+ */
 class LibrariesClientImpl extends Client implements LibrariesClient {
   LibrariesClientImpl(GalaxyInstanceImpl galaxyInstance) {
     super(galaxyInstance, "libraries");
@@ -61,7 +64,11 @@ class LibrariesClientImpl extends Client implements LibrariesClient {
   }
 
   public ClientResponse uploadFilesystemPathsRequest(final String libraryId, final FilesystemPathsLibraryUpload upload) {
-    return super.create(getWebResourceContents(libraryId), upload);
+	  /* AMPPD customization for Galaxy 25.0 upgrade:
+	   * API URL for uploading file to library changed from /api/libraries/library_id/contents to /api/libraries/datasets.
+	   */
+	  return super.create(getWebResource().path("datasets"), upload);
+//    return super.create(getWebResourceContents(libraryId), upload);
   }
   
   public GalaxyObject uploadFilesystemPaths(final String libraryId, final FilesystemPathsLibraryUpload upload) {
