@@ -68,11 +68,15 @@ class LibrariesClientImpl extends Client implements LibrariesClient {
 	   * API URL for uploading file to library changed from /api/libraries/library_id/contents to /api/libraries/datasets.
 	   */
 	  return super.create(getWebResource().path("datasets"), upload);
-//    return super.create(getWebResourceContents(libraryId), upload);
+	  // return super.create(getWebResourceContents(libraryId), upload);
   }
   
   public GalaxyObject uploadFilesystemPaths(final String libraryId, final FilesystemPathsLibraryUpload upload) {
-    return readJson(uploadFilesystemPathsRequest(libraryId, upload).getEntity(String.class), new TypeReference<List<GalaxyObject>>() {}).get(0);
+	/* AMPPD customization for Galaxy 25.0 upgrade:
+	 * Note that the response to the request has changed: it contains info of the upload job instead of the created dataset.
+	 */
+    return read(uploadFilesystemPathsRequest(libraryId, upload), GalaxyObject.class);
+    // return readJson(uploadFilesystemPathsRequest(libraryId, upload).getEntity(String.class), new TypeReference<List<GalaxyObject>>() {}).get(0);    
   }
 
   public LibraryContent getRootFolder(final String libraryId) {
