@@ -1,14 +1,29 @@
 package com.github.jmchilton.blend4j.galaxy.beans;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonValue;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
-import java.util.HashMap;
-import java.util.Map;
-
+/**
+ * AMPPD extension
+ * Request payload for invoking a workflow.
+ */ 
 public class WorkflowInputs {
+	/* AMPPD customization: added since Galaxy 25.0:
+	 * There are a few other params in InvokeWorkflowPayload, but their default values are sufficient for all AMP use cases, 
+	 * thus, there is no need to add them. 
+	 */	
+	
+  /* AMPPD customization: added since Galaxy 25.0:
+   * workflowId is not used in InvokeWorkflowPayload anymore, but is needed as part of the API URL; to minimize code change, 
+   * it is still included here so the runWorkflow signature don't need change and can retrieve workflowId from WorkflowInputs	
+   */
   // Why are we posting to /workflows and putting this in the payload instead
   // of posting to /workflows/<workflow_id>. Seems incongruous/unrestful.
   private String workflowId;
@@ -21,7 +36,8 @@ public class WorkflowInputs {
     this.workflowId = workflowId;
   }
 
-  @JsonProperty("workflow_id")
+  // AMPPD customization: changed since Galaxy 25.0
+  // @JsonProperty("workflow_id")
   public String getWorkflowId() {
     return workflowId;
   }
@@ -30,16 +46,31 @@ public class WorkflowInputs {
     this.destination = destination;
   }
 
-  @JsonProperty("history")
+  // AMPPD customization: changed since Galaxy 25.0
+  // @JsonProperty("history")
+  @Deprecated
   public WorkflowDestination getDestination() {
     return destination;
   }
+  
+  // AMPPD customization: added since Galaxy 25.0
+  @JsonProperty("history_id")
+  public String getHistoryId() {
+	return destination instanceof ExistingHistory ? destination.value() : null;
+  }
 
+  // AMPPD customization: added since Galaxy 25.0
+  @JsonProperty("new_history_name")
+  public String getHistoryName() {
+	return destination instanceof NewHistory ? destination.value() : null;
+  }
+	
   public void setInput(final String inputName, final WorkflowInput workflowInput) {
     this.inputs.put(inputName, workflowInput);
   }
 
-  @JsonProperty("ds_map")
+  // AMPPD customization: changed since Galaxy 25.0
+  // @JsonProperty("ds_map")
   public Map<String, WorkflowInput> getInputs() {
     return inputs;
   }
@@ -105,6 +136,11 @@ public class WorkflowInputs {
   }
 
   public static class WorkflowDestination {
+  	  // AMPPD customization: added since Galaxy 25.0
+	  @JsonValue
+	  public String value() {
+		  return null;
+	  }
   }
 
   public static class NewHistory extends WorkflowDestination {
@@ -129,15 +165,49 @@ public class WorkflowInputs {
 
     @JsonValue
     public String value() {
-      return String.format("hist_id=%s", id);
+  	  // AMPPD customization: changed since Galaxy 25.0
+      // return String.format("hist_id=%s", id);
+      return id;
     }
   }
-
+  
+  // AMPPD customization: added since Galaxy 25.0
   public static class WorkflowInput {
+	  private boolean batch = false; // required, default value good for AMP
+//	  private boolean product = false; // optional, default value good for AMP
+	  private List<WorkflowInputValue> values = new ArrayList<WorkflowInputValue>();
+	  	  
+	  // for AMP use case, there is only one WorkflowInputValue per input index, and batch is always false here
+	  public WorkflowInput(WorkflowInputValue workflowInputValue) {
+		  values.add(workflowInputValue);
+	  }
+	  
+	  public boolean getBatch() {
+		  return batch;
+	  }
+	  
+	  public void setBatch(boolean batch) {
+		  this.batch = batch;
+	  }
+	  
+	  public List<WorkflowInputValue> getValues() {
+		  return values;
+	  }
+	  
+	  public void setValues(List<WorkflowInputValue> values) {
+		  this.values = values;
+	  }	  
+  }
+  
+
+  // AMPPD customization: changed since Galaxy 25.0
+  public static class WorkflowInputValue {
     private String id;
     private InputSourceType inputSourceType;
+    // map_over_type is optional, not added as there is no use case for AMP
 
-    public WorkflowInput(final String id, final InputSourceType inputSourceType) {
+    // AMPPD customization: changed since Galaxy 25.0
+    public WorkflowInputValue(final String id, final InputSourceType inputSourceType) {
       this.id = id;
       this.inputSourceType = inputSourceType;
     }

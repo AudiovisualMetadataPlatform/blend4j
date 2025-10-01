@@ -11,6 +11,9 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Invocation extends GalaxyObject {
+	// AMPPD customization: changed since Galaxy 25.0
+	@JsonProperty("create_time")
+	private Date createTime;
 	
 	@JsonProperty("update_time")
 	private Date updateTime;
@@ -20,9 +23,7 @@ public class Invocation extends GalaxyObject {
 	private String historyId;	
 	
 	private String state;
-	
-	// we omit the output_collection, since we don't use collection
-	
+		
 	@JsonProperty("workflow_id")
 	private String workflowId;	// an internal workflow ID, not the same as the API workflowId used for workflow query/invocation
 	

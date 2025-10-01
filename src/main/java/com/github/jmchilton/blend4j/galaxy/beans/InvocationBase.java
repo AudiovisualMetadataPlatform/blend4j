@@ -1,8 +1,6 @@
 package com.github.jmchilton.blend4j.galaxy.beans;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
@@ -16,6 +14,10 @@ import org.codehaus.jackson.annotate.JsonProperty;
 public class InvocationBase extends Invocation {
 
 	private Map<String, WorkflowInput> inputs = new HashMap<String, WorkflowInput>();
+	private Map<String, WorkflowOutput> outputs = new HashMap<String, WorkflowOutput>();
+
+	// below fields are omitted since there is no use case in AMP for them:
+	// input_step_parameters, output_collections, output_values, messages
 
 	public Map<String, WorkflowInput> getInputs() {
 		return inputs;
@@ -24,16 +26,37 @@ public class InvocationBase extends Invocation {
 	public void setInputs(Map<String, WorkflowInput> inputs) {
 		this.inputs = inputs;
 	}
+	
+	public Map<String, WorkflowOutput> getOutputs() {
+		return outputs;
+	}
+
+	public void setOutputs(Map<String, WorkflowOutput> outputs) {
+		this.outputs = outputs;
+	}
 
 	// we could have inherited from WorkflowInputs.WorkflowInput, except that "src" is of Enum InputSourceType, which uses upper case names, 
 	// and that differs from the actual string values returned by Galaxy, so it can't be understood by json parser 
 	@JsonIgnoreProperties(ignoreUnknown=true)
-	public static class WorkflowInput {
+	public static class WorkflowInput extends WorkflowOutput {
+	    private String label;	    
+
+		public String getLabel() {
+			return label;
+		}
+
+		public void setLabel(String label) {
+			this.label = label;
+		}	
+	}	
+	
+	// we could have inherited from JobInputOutput, except that "src" is of Enum InputSourceType, which uses upper case names, 
+	// and that differs from the actual string values returned by Galaxy, so it can't be understood by json parser 
+	@JsonIgnoreProperties(ignoreUnknown=true)
+	public static class WorkflowOutput {
 	    private String id;
-	    private String src;
-		// WorkflowInput.WorkflowInput does not include uuid; but Galaxy does return it with invocation outputs
-		// we need to include uuid otherwise json parser will throw exception
-		private String uuid;
+	    private String src;		
+	    private String workflowStepId;	    
 		
 		public String getId() {
 			return id;
@@ -50,14 +73,15 @@ public class InvocationBase extends Invocation {
 		public void setSrc(String src) {
 			this.src = src;
 		}
-			
-		public String getUuid() {
-			return uuid;
+
+		@JsonProperty("workflow_step_id")
+		public String getWorkflowStepId() {
+			return workflowStepId;
 		}
 
-		public void setUuid(String uuid) {
-			this.uuid = uuid;
-		}		
+		public void setWorkflowStepId(String workflowStepId) {
+			this.workflowStepId = workflowStepId;
+		}	
 	}	
 	
 }
