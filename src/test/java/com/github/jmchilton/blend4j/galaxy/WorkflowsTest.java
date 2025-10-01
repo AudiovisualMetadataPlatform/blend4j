@@ -3,6 +3,8 @@ package com.github.jmchilton.blend4j.galaxy;
 import static org.testng.AssertJUnit.fail;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +15,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.github.jmchilton.blend4j.galaxy.beans.Invocation;
+import com.github.jmchilton.blend4j.galaxy.beans.InvocationBase.WorkflowOutput;
 import com.github.jmchilton.blend4j.galaxy.beans.InvocationBriefs;
 import com.github.jmchilton.blend4j.galaxy.beans.InvocationDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.InvocationStep;
@@ -25,6 +28,7 @@ import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInputs;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInputs.ExistingHistory;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInputs.InputSourceType;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInputs.WorkflowInput;
+import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInputs.WorkflowInputValue;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowOutputs;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowStepDefinition;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.request.CollectionDescription;
@@ -139,7 +143,7 @@ public class WorkflowsTest {
 		workflowInputs.setDestination(new WorkflowInputs.ExistingHistory(historyId));
 		workflowInputs.setWorkflowId(workflowId);
 		workflowInputs.setInput(workflowInputId,
-				new WorkflowInputs.WorkflowInput(collectionResponse.getId(), inputSource));
+				new WorkflowInput(new WorkflowInputValue(collectionResponse.getId(), inputSource)));
 
 		return workflowInputs;
 	}
@@ -155,12 +159,13 @@ public class WorkflowsTest {
 
 		WorkflowInputs workflowInputs = prepareWorkflowCollectionList(WorkflowInputs.InputSourceType.HDCA);
 
-		WorkflowOutputs outputs = workflowsClient.runWorkflow(workflowInputs);
+		WorkflowOutputs invocation = workflowsClient.runWorkflow(workflowInputs);
+		InvocationDetails outputs = (InvocationDetails) client.showInvocation(workflowInputs.getWorkflowId(), invocation.getId(), true);
 		Assert.assertNotNull(outputs);
-		Assert.assertNotNull(outputs.getOutputIds());
-		Assert.assertEquals(1, outputs.getOutputIds().size());
+		Assert.assertNotNull(outputs.getOutputs());
+		Assert.assertEquals(1, outputs.getOutputs().size());
 
-		String outputId = outputs.getOutputIds().get(0);
+		String outputId = outputs.getOutputs().values().iterator().next().getId();
 		Assert.assertNotNull(outputId);
 	}
 
@@ -298,7 +303,7 @@ public class WorkflowsTest {
 		inputs.setDestination(new ExistingHistory(historyId));
 		inputs.setWorkflowId(testWorkflowId);
 		final String inputId = workflowDetails.getInputs().keySet().iterator().next();
-		inputs.setInput(inputId, new WorkflowInput(datasetId, InputSourceType.HDA));
+		inputs.setInput(inputId, new WorkflowInput(new WorkflowInputValue(datasetId, InputSourceType.HDA)));
 		return inputs;
 	}
 
@@ -357,9 +362,12 @@ public class WorkflowsTest {
 		final WorkflowInputs inputs = new WorkflowInputs();
 		inputs.setDestination(new ExistingHistory(historyId));
 		inputs.setWorkflowId(testWorkflowId);
-		inputs.setInput(workflowInput1Id, new WorkflowInput(input1Id, InputSourceType.HDA));
-		inputs.setInput(workflowInput2Id, new WorkflowInput(input2Id, InputSourceType.HDA));
-		final WorkflowOutputs wos = client.runWorkflow(inputs);
+		inputs.setInput(workflowInput1Id, new WorkflowInput(new WorkflowInputValue(input1Id, InputSourceType.HDA)));
+		inputs.setInput(workflowInput2Id, new WorkflowInput(new WorkflowInputValue(input2Id, InputSourceType.HDA)));
+		final WorkflowOutputs invocation = client.runWorkflow(inputs);
+	    final InvocationDetails wos = (InvocationDetails) client.showInvocation(inputs.getWorkflowId(), invocation.getId(), true);
+	    Collection<WorkflowOutput> outputs = wos.getOutputs().values();
+		
 		System.out.println("Running workflow in history " + wos.getHistoryId());
 		
 		// verify basic info of the WorkflowOutputs
@@ -374,11 +382,12 @@ public class WorkflowsTest {
 		assert wos.getInputs().get("0").getSrc().equals("hda");
 		
 		// verify outputs in WorkflowOutputs
-		assert wos.getOutputIds().size() == 1;
-		for (final String outputId : wos.getOutputIds()) {
-			System.out.println("  Workflow Output ID " + outputId);
-			assert !outputId.isEmpty();
-		}
+		assert outputs.size() == 1;
+	    Iterator<WorkflowOutput> outiter = outputs.iterator();
+	    while (outiter.hasNext()) {
+			System.out.println("  Workflow Output ID " + outiter.next().getId());
+			assert !outiter.next().getId().isEmpty();
+	    }
 		
 		// verify steps in WorkflowOutputs
 		assert wos.getSteps().size() == 3;
@@ -410,8 +419,8 @@ public class WorkflowsTest {
 		final WorkflowInputs inputs = new WorkflowInputs();
 		inputs.setDestination(new ExistingHistory(historyId));
 		inputs.setWorkflowId(testWorkflowId);
-		inputs.setInput(workflowInput1Id, new WorkflowInput(input1Id, InputSourceType.HDA));
-		inputs.setInput(workflowInput2Id, new WorkflowInput(input2Id, InputSourceType.HDA));
+		inputs.setInput(workflowInput1Id, new WorkflowInput(new WorkflowInputValue(input1Id, InputSourceType.HDA)));
+		inputs.setInput(workflowInput2Id, new WorkflowInput(new WorkflowInputValue(input2Id, InputSourceType.HDA)));
 		final WorkflowOutputs wos = client.runWorkflow(inputs);		
 		List<Invocation> invocations = client.indexInvocations(testWorkflowId, historyId);
 		
@@ -444,8 +453,8 @@ public class WorkflowsTest {
 		final WorkflowInputs inputs = new WorkflowInputs();
 		inputs.setDestination(new ExistingHistory(historyId));
 		inputs.setWorkflowId(testWorkflowId);
-		inputs.setInput(workflowInput1Id, new WorkflowInput(input1Id, InputSourceType.HDA));
-		inputs.setInput(workflowInput2Id, new WorkflowInput(input2Id, InputSourceType.HDA));
+		inputs.setInput(workflowInput1Id, new WorkflowInput(new WorkflowInputValue(input1Id, InputSourceType.HDA)));
+		inputs.setInput(workflowInput2Id, new WorkflowInput(new WorkflowInputValue(input2Id, InputSourceType.HDA)));
 		final WorkflowOutputs wos = client.runWorkflow(inputs);		
 
 		// test show invocation without step details
@@ -517,9 +526,10 @@ public class WorkflowsTest {
 		final WorkflowInputs inputs = new WorkflowInputs();
 		inputs.setDestination(new ExistingHistory(historyId));
 		inputs.setWorkflowId(testWorkflowId);
-		inputs.setInput(workflowInput1Id, new WorkflowInput(input1Id, InputSourceType.HDA));
-		inputs.setInput(workflowInput2Id, new WorkflowInput(input2Id, InputSourceType.HDA));
-		final WorkflowOutputs wos = client.runWorkflow(inputs);		
+		inputs.setInput(workflowInput1Id, new WorkflowInput(new WorkflowInputValue(input1Id, InputSourceType.HDA)));
+		inputs.setInput(workflowInput2Id, new WorkflowInput(new WorkflowInputValue(input2Id, InputSourceType.HDA)));		
+		final WorkflowOutputs invocation = client.runWorkflow(inputs);
+	    final InvocationDetails wos = (InvocationDetails) client.showInvocation(inputs.getWorkflowId(), invocation.getId(), true);		
 		InvocationStepDetails step = client.showInvocationStep(testWorkflowId, wos.getId(), wos.getSteps().get(2).getId());		
 		
 		// verify basic information of the step

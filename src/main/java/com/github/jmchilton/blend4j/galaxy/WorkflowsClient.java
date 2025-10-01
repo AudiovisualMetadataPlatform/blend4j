@@ -2,7 +2,6 @@ package com.github.jmchilton.blend4j.galaxy;
 
 import java.util.List;
 
-import com.github.jmchilton.blend4j.galaxy.beans.GalaxyObject;
 import com.github.jmchilton.blend4j.galaxy.beans.Invocation;
 import com.github.jmchilton.blend4j.galaxy.beans.InvocationBase;
 import com.github.jmchilton.blend4j.galaxy.beans.InvocationDetails;
@@ -11,6 +10,7 @@ import com.github.jmchilton.blend4j.galaxy.beans.Workflow;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInputs;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowMetadata;
+import com.github.jmchilton.blend4j.galaxy.beans.WorkflowOutputs;
 import com.sun.jersey.api.client.ClientResponse;
 
 /**
@@ -60,7 +60,7 @@ public interface WorkflowsClient {
 
   public ClientResponse runWorkflowResponse(WorkflowInputs workflowInputs);
 
-  public GalaxyObject runWorkflow(WorkflowInputs workflowInputs);
+  public WorkflowOutputs runWorkflow(WorkflowInputs workflowInputs);
   
   /**
    * Updates the metadata of the given workflow to the given value.
