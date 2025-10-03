@@ -2,7 +2,6 @@ package com.github.jmchilton.blend4j.galaxy.beans;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 /**
  * AMPPD extension
@@ -17,7 +16,7 @@ public class LibraryUpload extends GalaxyObject {
   private String folderId;
   private String fileType = "auto";
   private String dbkey = "?";
-  private String content;
+  private String content;	
 
   // AMPPD customization: added since Galaxy 25.0, 
   // specifying where/how the dataset(s) should be loaded from, corresponding to the deprecated fields createType + uploadOption
@@ -25,14 +24,17 @@ public class LibraryUpload extends GalaxyObject {
 
   // AMPPD customization: not used since Galaxy 25.0, can be ignored
   @Deprecated 
+  @JsonIgnore
   private String name; 
   
   // AMPPD customization: not used since Galaxy 25.0, can be ignored
   @Deprecated 
+  @JsonIgnore
   private String uploadOption;
 
   // AMPPD customization: not used since Galaxy 25.0, can be ignored
   @Deprecated 
+  @JsonIgnore
   private CreateType createType = CreateType.FILE;
 
   // AMPPD customization: not used since Galaxy 25.0, can be ignored
@@ -69,11 +71,6 @@ public class LibraryUpload extends GalaxyObject {
     }
   }
 
-  // AMPPD customization: added since Galaxy 25.0
-  protected LibraryUpload(Source source) {
-    this.source = source;
-  }
-  
   // AMPPD customization: not used since Galaxy 25.0, can be ignored
   @Deprecated 
   protected LibraryUpload(final String uploadOption) {
@@ -81,13 +78,18 @@ public class LibraryUpload extends GalaxyObject {
   }
 
   // AMPPD customization: added since Galaxy 25.0
+  protected LibraryUpload(Source source) {
+    this.source = source;
+  }
+  
+  // AMPPD customization: added since Galaxy 25.0
   public String getSource() {
 	return source.toJson();
   }
 
   // AMPPD customization: not used since Galaxy 25.0, can be ignored
+//  @JsonProperty("upload_option")
   @Deprecated 
-  @JsonProperty("upload_option")
   public String getUploadOption() {
 	return uploadOption;
   }
@@ -131,8 +133,8 @@ public class LibraryUpload extends GalaxyObject {
   }
 
   // AMPPD customization: not used since Galaxy 25.0, can be ignored
+//  @JsonProperty("create_type")
   @Deprecated 
-  @JsonProperty("create_type")
   public String getCreateType() {
     return createType.toJson();
   }
@@ -144,9 +146,9 @@ public class LibraryUpload extends GalaxyObject {
   }
 
   // AMPPD customization: not used since Galaxy 25.0, can be ignored
+//  @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
+//  @JsonProperty("NAME")
   @Deprecated 
-  @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
-  @JsonProperty("NAME")
   public String getName() {
     return name;
   }

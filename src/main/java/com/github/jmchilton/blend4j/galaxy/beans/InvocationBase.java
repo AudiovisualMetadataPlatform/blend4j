@@ -12,7 +12,8 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class InvocationBase extends Invocation {
-
+	// AMPPD customization: member fields/classes are changed since Galaxy 25.0
+	
 	private Map<String, WorkflowInput> inputs = new HashMap<String, WorkflowInput>();
 	private Map<String, WorkflowOutput> outputs = new HashMap<String, WorkflowOutput>();
 
@@ -56,6 +57,8 @@ public class InvocationBase extends Invocation {
 	public static class WorkflowOutput {
 	    private String id;
 	    private String src;		
+	    
+		@JsonProperty("workflow_step_id")
 	    private String workflowStepId;	    
 		
 		public String getId() {
@@ -74,7 +77,6 @@ public class InvocationBase extends Invocation {
 			this.src = src;
 		}
 
-		@JsonProperty("workflow_step_id")
 		public String getWorkflowStepId() {
 			return workflowStepId;
 		}

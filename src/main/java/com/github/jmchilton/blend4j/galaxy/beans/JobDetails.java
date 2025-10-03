@@ -16,21 +16,9 @@ public class JobDetails extends Job {
 	
 	@JsonProperty("command_line")
 	private String commandLine;
-	
-//	@JsonProperty("exit_code")
-//	private Integer exitCode;
 
     private Map<String, JobInputOutput> inputs;
-
     private Map<String, JobInputOutput> outputs;
-	
-//	public Integer getExitCode() {
-//		return exitCode;
-//	}
-//
-//	public void setExitCode(final Integer exitCode) {
-//		this.exitCode = exitCode;
-//	}
 
 	public String getCommandLine() {
 		return this.commandLine;

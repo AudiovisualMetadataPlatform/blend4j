@@ -38,6 +38,7 @@ public class WorkflowInputs {
 
   // AMPPD customization: changed since Galaxy 25.0
   // @JsonProperty("workflow_id")
+  @JsonIgnore
   public String getWorkflowId() {
     return workflowId;
   }
@@ -48,6 +49,7 @@ public class WorkflowInputs {
 
   // AMPPD customization: changed since Galaxy 25.0
   // @JsonProperty("history")
+  @JsonIgnore
   @Deprecated
   public WorkflowDestination getDestination() {
     return destination;
@@ -216,10 +218,18 @@ public class WorkflowInputs {
       return id;
     }
 
-    @JsonProperty("src")
-    public InputSourceType getSourceType() {
-      return inputSourceType;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}    
+
+	@JsonProperty("src")
+	public InputSourceType getInputSourceType() {
+		return inputSourceType;
+	}
+
+	public void setInputSourceType(InputSourceType inputSourceType) {
+		this.inputSourceType = inputSourceType;
+	}
   }
 
   /**

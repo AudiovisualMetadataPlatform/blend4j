@@ -1,5 +1,6 @@
 package com.github.jmchilton.blend4j.galaxy.beans;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
@@ -45,8 +46,9 @@ public class FilesystemPathsLibraryUpload extends LibraryUpload {
   }
 
   // AMPPD customization: not used since Galaxy 25.0, can be ignored
+  // @JsonProperty("link_data_only")
+  @JsonIgnore
   @Deprecated 
-  @JsonProperty("link_data_only")
   public String getLinkDataOnly() {
     return linkData ? "link_to_files" : "copy_files";
   }

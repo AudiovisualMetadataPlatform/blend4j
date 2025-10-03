@@ -74,6 +74,7 @@ class WorkflowsClientImpl extends Client implements WorkflowsClient {
 
 	@Override
 	public ClientResponse runWorkflowResponse(WorkflowInputs workflowInputs) {
+		// AMPPD customization: changed since Galaxy 25.0 
 		WebResource webResource = getWebResource(workflowInputs.getWorkflowId()).path("invocations");
 		return super.create(webResource, workflowInputs);
 	}
@@ -81,7 +82,7 @@ class WorkflowsClientImpl extends Client implements WorkflowsClient {
 	@Override
 	public WorkflowOutputs runWorkflow(final WorkflowInputs workflowInputs) {
 		// AMPPD customization: changed since Galaxy 25.0 
-		// Note that workflow invocation now just returns basic infor about the invocation with no steps or inputs/outputs info. 	
+		// Note that workflow invocation now just returns basic info about the invocation without steps or inputs/outputs info. 	
 		return runWorkflowResponse(workflowInputs).getEntity(WorkflowOutputs.class);		
 	}
 
