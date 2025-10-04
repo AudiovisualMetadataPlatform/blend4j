@@ -33,7 +33,7 @@ public class Job extends GalaxyObject {
 	
 	// AMPPD customization: added since Galaxy 25.0
 	@JsonProperty("galaxy_version")
-	private Date galaxyVersion;
+	private String galaxyVersion;
 	
 	public final String getState() {
 		return state;
@@ -82,11 +82,11 @@ public class Job extends GalaxyObject {
 		this.historyId = historyId;
 	}
 
-	public Date getGalaxyVersion() {
+	public String getGalaxyVersion() {
 		return galaxyVersion;
 	}
 
-	public void setGalaxyVersion(Date galaxyVersion) {
+	public void setGalaxyVersion(String galaxyVersion) {
 		this.galaxyVersion = galaxyVersion;
 	}
 	

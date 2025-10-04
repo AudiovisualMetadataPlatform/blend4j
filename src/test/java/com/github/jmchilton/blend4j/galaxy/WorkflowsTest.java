@@ -474,8 +474,10 @@ public class WorkflowsTest {
 		assert !invdetails.getInputs().get("0").getId().isEmpty();
 		assert invdetails.getInputs().get("0").getSrc().equals("hda");
 		
-		// unlike the WorkflowOutputs returned upon workflow invocation, the outputs returned from showInvocation is usually empty, 
-		// because the same info is populated inside each step's outputs instead
+		// changed since Galaxy 25.0: the outputs returned from showInvocation is not empty 
+		// verify outputs in invocationDetails
+		assert !invdetails.getOutputs().isEmpty();
+		assert invdetails.getOutputs().values().iterator().next().getSrc().equals("hda");
 		
 		// verify steps in invocationDetails
 		assert invdetails.getSteps().size() == 3;
