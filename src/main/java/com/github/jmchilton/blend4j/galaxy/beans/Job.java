@@ -19,6 +19,10 @@ public class Job extends GalaxyObject {
 	@JsonProperty("tool_id")
 	private String toolId;
 	
+	// AMPPD customization: added since Galaxy 25.0
+	@JsonProperty("tool_version")
+	private String toolVersion;
+
 	@JsonProperty("exit_code")
 	private Integer exitCode;
 	
@@ -42,6 +46,7 @@ public class Job extends GalaxyObject {
 	public final void setState(String state) {
 		this.state = state;
 	}
+	
 	public final String getToolId() {
 		return toolId;
 	}
@@ -50,6 +55,14 @@ public class Job extends GalaxyObject {
 		this.toolId = toolId;
 	}
 	
+	public String getToolVersion() {
+		return toolVersion;
+	}
+
+	public void setToolVersion(String toolVersion) {
+		this.toolVersion = toolVersion;
+	}
+
 	public final Date getCreated() {
 		return created;
 	}
