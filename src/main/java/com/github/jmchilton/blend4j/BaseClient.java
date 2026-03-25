@@ -2,17 +2,18 @@ package com.github.jmchilton.blend4j;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.Status.Family;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
-
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jmchilton.blend4j.exceptions.ResponseException;
 import com.github.jmchilton.blend4j.exceptions.SerializationException;
 import com.sun.jersey.api.client.ClientResponse;
@@ -21,8 +22,6 @@ import com.sun.jersey.multipart.BodyPart;
 import com.sun.jersey.multipart.FormDataBodyPart;
 import com.sun.jersey.multipart.FormDataMultiPart;
 import com.sun.jersey.multipart.file.FileDataBodyPart;
-import java.text.SimpleDateFormat;
-import java.util.TimeZone;
 
 /**
  * AMPPD extension

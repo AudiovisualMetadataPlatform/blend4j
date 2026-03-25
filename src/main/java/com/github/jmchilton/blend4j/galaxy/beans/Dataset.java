@@ -4,14 +4,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.annotate.JsonProperty;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.response.ElementResponse;
-import com.github.jmchilton.blend4j.util.Objects;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import com.github.jmchilton.blend4j.util.CustomJsonDateDeserializer;
+import com.github.jmchilton.blend4j.util.Objects;
 
 /**
  * AMPPD extension

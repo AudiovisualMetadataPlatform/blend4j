@@ -1,14 +1,15 @@
 package com.github.jmchilton.blend4j.util;
 
-import java.text.ParseException;
-import java.util.Date;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.map.JsonDeserializer;
-import org.codehaus.jackson.map.DeserializationContext;
 import java.io.IOException;
-import org.codehaus.jackson.JsonProcessingException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.TimeZone;
+
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 
 /**
  * AMPPD Customization for timezone

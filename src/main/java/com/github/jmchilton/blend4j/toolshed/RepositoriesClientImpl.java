@@ -7,7 +7,7 @@ import com.github.jmchilton.blend4j.toolshed.beans.RepositoryRevision;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import java.util.List;
-import org.codehaus.jackson.type.TypeReference;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 public class RepositoriesClientImpl extends Client implements RepositoriesClient {
   private static final TypeReference<List<RepositoryDetails>> TOOL_LIST_TYPE_REFERENCE = new TypeReference<List<RepositoryDetails>>() {
