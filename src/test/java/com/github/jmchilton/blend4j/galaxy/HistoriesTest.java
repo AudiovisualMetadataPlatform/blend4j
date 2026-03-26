@@ -1,13 +1,21 @@
 package com.github.jmchilton.blend4j.galaxy;
 
-import static org.testng.AssertJUnit.*;
+import static org.testng.AssertJUnit.fail;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import com.github.jmchilton.blend4j.exceptions.ResponseException;
 import com.github.jmchilton.blend4j.galaxy.beans.Dataset;
-import com.github.jmchilton.blend4j.galaxy.beans.HistoryDeleteResponse;
 import com.github.jmchilton.blend4j.galaxy.beans.History;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContentsProvenance;
+import com.github.jmchilton.blend4j.galaxy.beans.HistoryDeleteResponse;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryExport;
 import com.github.jmchilton.blend4j.galaxy.beans.OutputDataset;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.request.AbstractElement;
@@ -19,14 +27,6 @@ import com.github.jmchilton.blend4j.galaxy.beans.collection.response.CollectionR
 import com.github.jmchilton.blend4j.galaxy.beans.collection.response.ElementResponse;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.UniformInterfaceException;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-
-import org.junit.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 /**
  * AMPPD extension
@@ -433,10 +433,12 @@ public class HistoriesTest {
 
     historiesClient.downloadDataset(downloadHistoryId, downloadDatasetId,
         destinationFile);
-    Assert.assertEquals("files should have equal length",
-        downloadFile.length(), destinationFile.length());
-    Assert.assertTrue("files should have same content",
-        TestHelpers.compareFileContents(downloadFile, destinationFile));
+    Assert.assertEquals(
+        downloadFile.length(), destinationFile.length(),
+        "files should have equal length");
+    Assert.assertTrue(
+        TestHelpers.compareFileContents(downloadFile, destinationFile),
+        "files should have same content");
   }
   
   /**
