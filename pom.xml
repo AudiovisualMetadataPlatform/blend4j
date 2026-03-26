@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.github.jmchilton.blend4j</groupId>
+  <groupId>com.github.AudiovisualMetadataPlatform</groupId>
   <artifactId>blend4j</artifactId>
   <packaging>jar</packaging>
   <version>2.1.1</version>
   <name>blend4j</name>
-  <description>blend4j is a JVM partial reimplemenation of the Python library bioblend (http://bioblend.readthedocs.org/en/latest/) for interacting with Galaxy, CloudMan, and BioCloudCentral.</description>
-  <parent>
-    <groupId>org.sonatype.oss</groupId>
-    <artifactId>oss-parent</artifactId>
-    <version>7</version>
-  </parent>
+  <description>AMP-customized version of blend4j, which is a JVM partial reimplemenation of the Python library bioblend (http://bioblend.readthedocs.org/en/latest/) for interacting with Galaxy, CloudMan, and BioCloudCentral.</description>
   <scm>
     <connection>scm:git:git@github.com:galaxyproject/blend4j.git</connection>
     <developerConnection>scm:git:git@github.com:galaxyproject/blend4j.git</developerConnection>
@@ -32,8 +27,7 @@
   <properties>
     <!-- github server corresponds to entry in ~/.m2/settings.xml -->
     <github.global.server>github</github.global.server>
-
-    <jersey.version>1.19.1</jersey.version>
+    <jersey.version>1.19.4</jersey.version>
   </properties>
   <dependencies>
     <dependency>
@@ -59,17 +53,17 @@
     <dependency>
       <groupId>org.codehaus.jackson</groupId>
       <artifactId>jackson-core-asl</artifactId>
-      <version>1.9.12</version>
+      <version>1.9.13</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.jackson</groupId>
       <artifactId>jackson-mapper-asl</artifactId>
-      <version>1.9.12</version>
+      <version>1.9.13</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.jackson</groupId>
       <artifactId>jackson-jaxrs</artifactId>
-      <version>1.9.12</version>
+      <version>1.9.13</version>
     </dependency>
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
@@ -80,13 +74,13 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>16.0.1</version>
+      <version>32.0.1-jre</version>
     </dependency>
     <!-- Test Dependencies -->
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
-      <version>6.6</version>
+      <version>7.5.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -95,12 +89,18 @@
       <version>0.7.0</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
-      <version>1.7.7</version>
-      <scope>test</scope>
-    </dependency>    
+	<dependency>
+	    <groupId>org.apache.logging.log4j</groupId>
+	    <artifactId>log4j-1.2-api</artifactId>
+	    <version>2.17.1</version>
+	    <scope>test</scope>
+	</dependency>
+	<dependency>
+	    <groupId>org.apache.logging.log4j</groupId>
+	    <artifactId>log4j-slf4j-impl</artifactId>
+	    <version>2.17.1</version>
+	    <scope>test</scope>
+	</dependency>  
   </dependencies>
   <reporting>
     <plugins>
