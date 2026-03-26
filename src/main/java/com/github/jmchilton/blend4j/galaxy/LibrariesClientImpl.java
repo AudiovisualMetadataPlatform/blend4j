@@ -1,13 +1,15 @@
 package com.github.jmchilton.blend4j.galaxy;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.codehaus.jackson.type.TypeReference;
 
 import com.github.jmchilton.blend4j.galaxy.beans.DirectoryLibraryUpload;
 import com.github.jmchilton.blend4j.galaxy.beans.FileLibraryUpload;
 import com.github.jmchilton.blend4j.galaxy.beans.FilesystemPathsLibraryUpload;
-import com.github.jmchilton.blend4j.galaxy.beans.GalaxyObject;
+import com.github.jmchilton.blend4j.galaxy.beans.Job;
 import com.github.jmchilton.blend4j.galaxy.beans.Library;
 import com.github.jmchilton.blend4j.galaxy.beans.LibraryContent;
 import com.github.jmchilton.blend4j.galaxy.beans.LibraryDataset;
@@ -16,9 +18,10 @@ import com.github.jmchilton.blend4j.galaxy.beans.LibraryPermissions;
 import com.github.jmchilton.blend4j.galaxy.beans.UrlLibraryUpload;
 import com.sun.jersey.api.client.ClientResponse;
 
-import java.util.HashMap;
-import java.util.Map;
-
+/**
+ * AMPPD extension
+ * Implementation for libraries and its contents/datasets.
+ */
 class LibrariesClientImpl extends Client implements LibrariesClient {
   LibrariesClientImpl(GalaxyInstanceImpl galaxyInstance) {
     super(galaxyInstance, "libraries");
@@ -61,11 +64,19 @@ class LibrariesClientImpl extends Client implements LibrariesClient {
   }
 
   public ClientResponse uploadFilesystemPathsRequest(final String libraryId, final FilesystemPathsLibraryUpload upload) {
-    return super.create(getWebResourceContents(libraryId), upload);
+	  /* AMPPD customization for Galaxy 25.0 upgrade:
+	   * API URL for uploading file to library changed from /api/libraries/library_id/contents to /api/libraries/datasets.
+	   */
+	  return super.create(getWebResource().path("datasets"), upload);
+	  // return super.create(getWebResourceContents(libraryId), upload);
   }
   
-  public GalaxyObject uploadFilesystemPaths(final String libraryId, final FilesystemPathsLibraryUpload upload) {
-    return readJson(uploadFilesystemPathsRequest(libraryId, upload).getEntity(String.class), new TypeReference<List<GalaxyObject>>() {}).get(0);
+  public Job uploadFilesystemPaths(final String libraryId, final FilesystemPathsLibraryUpload upload) {
+	/* AMPPD customization for Galaxy 25.0 upgrade:
+	 * Note that the response to the request has changed: it contains info of the upload job instead of the created dataset.
+	 */
+    return read(uploadFilesystemPathsRequest(libraryId, upload), Job.class);
+    // return readJson(uploadFilesystemPathsRequest(libraryId, upload).getEntity(String.class), new TypeReference<List<GalaxyObject>>() {}).get(0);    
   }
 
   public LibraryContent getRootFolder(final String libraryId) {

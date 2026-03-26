@@ -5,7 +5,7 @@ import java.util.List;
 import com.github.jmchilton.blend4j.galaxy.beans.DirectoryLibraryUpload;
 import com.github.jmchilton.blend4j.galaxy.beans.FileLibraryUpload;
 import com.github.jmchilton.blend4j.galaxy.beans.FilesystemPathsLibraryUpload;
-import com.github.jmchilton.blend4j.galaxy.beans.GalaxyObject;
+import com.github.jmchilton.blend4j.galaxy.beans.Job;
 import com.github.jmchilton.blend4j.galaxy.beans.Library;
 import com.github.jmchilton.blend4j.galaxy.beans.LibraryContent;
 import com.github.jmchilton.blend4j.galaxy.beans.LibraryDataset;
@@ -35,9 +35,9 @@ public interface LibrariesClient {
    * Uploads a file from a local filesystem path to a library.
    * @param libraryId  The Library to upload the file to.
    * @param upload  The object representing an upload request.
-   * @return  A GalaxyObject representing the response for this upload.
+   * @return  A Job representing the response for this upload.
    */
-  GalaxyObject uploadFilesystemPaths(final String libraryId, final FilesystemPathsLibraryUpload upload);
+  Job uploadFilesystemPaths(final String libraryId, final FilesystemPathsLibraryUpload upload);
 
   ClientResponse uploadFile(String libraryId, FileLibraryUpload upload);
 

@@ -14,7 +14,9 @@ public class InvocationStepDetails extends InvocationStep {
 
 	private List<Job> jobs;	
     private Map<String, JobInputOutput> outputs;
-	// we omit the output_collection, since we don't use collection
+
+	// below fields are omitted since there is no use case in AMP for them:
+	// output_collections
     
 	public List<Job> getJobs() {
 		return jobs;

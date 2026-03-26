@@ -2,16 +2,21 @@ package com.github.jmchilton.blend4j.galaxy;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.core.MediaType;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.github.jmchilton.blend4j.galaxy.beans.Dataset;
 import com.github.jmchilton.blend4j.galaxy.beans.FilesystemPathsLibraryUpload;
 import com.github.jmchilton.blend4j.galaxy.beans.History;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
+import com.github.jmchilton.blend4j.galaxy.beans.InvocationBase;
+import com.github.jmchilton.blend4j.galaxy.beans.InvocationBase.WorkflowOutput;
 import com.github.jmchilton.blend4j.galaxy.beans.Library;
 import com.github.jmchilton.blend4j.galaxy.beans.LibraryContent;
 import com.github.jmchilton.blend4j.galaxy.beans.LibraryPermissions;
@@ -21,19 +26,17 @@ import com.github.jmchilton.blend4j.galaxy.beans.Workflow;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInputDefinition;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInputs;
+import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInputs.WorkflowInput;
+import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInputs.WorkflowInputValue;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowOutputs;
-import com.github.jmchilton.blend4j.galaxy.beans.collection.request.CollectionElement;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.request.CollectionDescription;
+import com.github.jmchilton.blend4j.galaxy.beans.collection.request.CollectionElement;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.request.HistoryDatasetElement;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.response.CollectionElementResponse;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.response.CollectionResponse;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.response.ElementResponse;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
-
-import java.util.Map;
-
-import org.testng.Assert;
 
 public class Examples {
   public static void main(final String[] args) throws Exception {
@@ -227,12 +230,15 @@ public class Examples {
     final WorkflowInputs inputs = new WorkflowInputs();
     inputs.setDestination(new WorkflowInputs.ExistingHistory(matchingHistory.getId()));
     inputs.setWorkflowId(matchingWorkflow.getId());
-    inputs.setInput(workflowInput1Id, new WorkflowInputs.WorkflowInput(input1Id, WorkflowInputs.InputSourceType.HDA));
-    inputs.setInput(workflowInput2Id, new WorkflowInputs.WorkflowInput(input2Id, WorkflowInputs.InputSourceType.HDA));
-    final WorkflowOutputs output = workflowsClient.runWorkflow(inputs);
-    System.out.println("Running workflow in history " + output.getHistoryId());
-    for(String outputId : output.getOutputIds()) {
-      System.out.println("  Workflow writing to output id " + outputId);
+    inputs.setInput(workflowInput1Id, new WorkflowInput(new WorkflowInputValue(input1Id, WorkflowInputs.InputSourceType.HDA)));
+    inputs.setInput(workflowInput2Id, new WorkflowInput(new WorkflowInputValue(input2Id, WorkflowInputs.InputSourceType.HDA)));
+    final WorkflowOutputs invocation = workflowsClient.runWorkflow(inputs);
+    System.out.println("Running workflow in history " + invocation.getHistoryId());
+    
+    final InvocationBase invdetails = workflowsClient.showInvocation(inputs.getWorkflowId(), invocation.getId(), true);
+    Iterator<WorkflowOutput> outputs = invdetails.getOutputs().values().iterator();
+    while (outputs.hasNext()) {
+        System.out.println("  Workflow writing to output id " + outputs.next().getId());    	
     }
   }
   
